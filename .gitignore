@@ -1,6 +1,6 @@
-__pycache__/    # Python 3.2+ byte-compiled files
-Factorize.py
-extract_sshpubkey_params.py
-id_rsa*
-*message*
-primes
+Basic_RSA/__pycache__/
+Basic_RSA/*.pem
+Basic_RSA/*.txt
+Efficient_RSA/__pycache__/
+Efficient_RSA/*.pem
+Efficient_RSA/*.txt
