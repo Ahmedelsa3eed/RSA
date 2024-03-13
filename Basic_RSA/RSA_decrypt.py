@@ -1,8 +1,9 @@
 from FindMI import MI
 from RSAKeyUtil import *
 import time
+import sys
 
-def decrypt(c, d, n, p, q):
+def decrypt(c, d, n, p, q) -> int:
     """Decrypt the ciphertext using the private key and the primes
     Args:
         c: the ciphertext to decrypt
@@ -25,22 +26,25 @@ def decrypt(c, d, n, p, q):
 
 if __name__ == '__main__':
     start = time.time()
-    # read ciphertext as integer
-    c = read_message("encrypted_message")
+
+    if len(sys.argv) > 2:
+        c = read_message(sys.argv[1])
+        c = int(c)
+        print("c: ", c)
+    else:
+        print("Usage: python3 decrypt.py <ciphertext_file> <plaintext_file>")
+        exit(1)
     
-    # read private key
     n, d = read_key("private_key")
 
-    # read primes
     p, q = read_primes()
     
-    # decrypt the message
     m = decrypt(c, d, n, p, q)
+    print("m: ", m)
+
+    m = int_to_string(m)
+    print("Decrypted message: ", m)
     
-    # convert the decrypted message to string
-    m = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big').decode()
-    print("Decrypted message as string: ", m)
-    
-    write_message(m, "decrypted_message")
+    write_message(m, sys.argv[2])
 
     print("--- %s ms ---" % ((time.time() - start) * 1000))

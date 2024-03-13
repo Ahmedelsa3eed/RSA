@@ -1,11 +1,7 @@
-import os
-
-cwd = os.getcwd()
-
 def read_key(key):
     """Returns (n, e) for public key or (n, d) for private key"""
     try:
-        file = open(cwd + f'/{key}', 'r')
+        file = open("./" + key, 'r')
     except FileNotFoundError:
         print("[Error] key not found")
         exit(1)
@@ -16,33 +12,36 @@ def read_key(key):
 def write_key(key, n, exponent):
     """Writes the public or private key to a file
         separate the n and exponent with a newline character"""
-    with open(cwd + f"/{key}", "w") as file:
+    with open("./" + key, "w") as file:
         file.write(f"{n}\n{exponent}")
 
-def read_message(filename):
-    """Read the plaintext/ciphertext from a file and return it as an integer"""
-    try:
-        file = open(cwd + f"/{filename}", 'r')
-        message = int(file.readline())
-        return message
-    except FileNotFoundError:
-        print("[Error] message not found")
-        exit(1)
+def string_to_int(s: str):
+    return int.from_bytes(s.encode('utf-8'), byteorder='big')
 
-def write_message(message, filename):
-    """Write the plaintext/ciphertext to a file as a string"""
-    with open(cwd + f"/{filename}", "w") as file:
-        file.write(str(message))
+def int_to_string(num: int):
+    return num.to_bytes((num.bit_length() + 7) // 8, byteorder='big').decode()
+
+def write_message(message: str, filename):
+    """Write the text message to a file as a string"""
+    with open("./" + filename, 'w') as file:
+        file.write(message)
+
+def read_message(filename) -> str:
+    """Read the plaintext string from a file"""
+    with open("./" + filename, 'r') as file:
+        text = file.readline()
+
+    return text
 
 def write_primes(p, q):
     """Write the primes p and q to a file to be used later for decryption"""
-    with open(cwd + "/primes", "w") as file:
+    with open("./" + "primes", "w") as file:
         file.write(f"{p}\n{q}")
 
 def read_primes():
     """Read the primes p and q from a file"""
     try:
-        file = open(cwd + "/primes", 'r')
+        file = open("./" + "primes", 'r')
         p = int(file.readline())
         q = int(file.readline())
         return p, q

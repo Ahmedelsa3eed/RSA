@@ -5,7 +5,7 @@ import time
 import sys
 
 
-def keygen(bits=64):
+def keygen(bits=2048):
     # 4. Select the public exponent e such that 𝑔𝑐𝑑(𝑒, 𝜙(𝑛)) = 1
     e = 65537
 
@@ -25,13 +25,10 @@ def keygen(bits=64):
 
     # 5. Calculate the private exponent d = e^-1 mod 𝜙(𝑛)
     d = MI(e, phi_n)
-    if not d:
-        print("[Error] can't compute private exponent (d)")
-        exit(1)
 
     # Write the public and private keys to output files
-    write_key("public_key", n, e)
-    write_key("private_key", n, d)
+    write_key("./public_key", n, e)
+    write_key("./private_key", n, d)
 
 
 if __name__ == '__main__':
