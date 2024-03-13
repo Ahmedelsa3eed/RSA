@@ -1,4 +1,4 @@
-from cryptography.hazmat.primitives.asymmetric import rsa
+import rsa
 from Crypto.Util import number
 from FindMI import MI
 from RSAKeyUtil import *
@@ -6,9 +6,7 @@ import sys
 import time
 
 
-def keygen(num_of_bits_desired=1024):
-    bits = num_of_bits_desired
-    
+def keygen(bits=1024):
     # Chose the public exponent as 65537
     e = 65537
     
@@ -27,18 +25,15 @@ def keygen(num_of_bits_desired=1024):
     # Calculate the private exponent d = e^-1 mod phi(n)
     d = MI(e, phi_n)
 
-    # Convert to RSA key object
-    private_key = rsa.generate_private_key(
-        public_exponent=e,
-        key_size=bits
-    )
-    public_key = private_key.public_key()
-    
-    save_public_key_to_file(public_key, "public_key.pem")
-    save_private_key_to_file(private_key, "private_key.pem")
-    
-    return public_key, private_key
+    public_key = rsa.PublicKey(n, e)
+    private_key = rsa.PrivateKey(n, e, d, p, q)
 
+    # save the keys to files
+    with open("public_key.pem", "wb") as f:
+        f.write(public_key.save_pkcs1())
+
+    with open("private_key.pem", "wb") as f:
+        f.write(private_key.save_pkcs1())
 
 if __name__ == '__main__':
     start = time.time()
