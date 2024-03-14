@@ -20,7 +20,6 @@ if __name__ == '__main__':
     n, e = read_key("public_key")
     
     ciphertext = encrypt(plaintext, e, n)
-    print("ciphertext: ", ciphertext)
     
     write_message(str(ciphertext), sys.argv[2])
     

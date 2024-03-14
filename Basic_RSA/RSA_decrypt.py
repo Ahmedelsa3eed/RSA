@@ -30,7 +30,6 @@ if __name__ == '__main__':
     if len(sys.argv) > 2:
         c = read_message(sys.argv[1])
         c = int(c)
-        print("c: ", c)
     else:
         print("Usage: python3 decrypt.py <ciphertext_file> <plaintext_file>")
         exit(1)
@@ -40,10 +39,8 @@ if __name__ == '__main__':
     p, q = read_primes()
     
     m = decrypt(c, d, n, p, q)
-    print("m: ", m)
 
     m = int_to_string(m)
-    print("Decrypted message: ", m)
     
     write_message(m, sys.argv[2])
 

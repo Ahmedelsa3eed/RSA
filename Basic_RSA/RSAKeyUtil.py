@@ -29,7 +29,7 @@ def write_message(message: str, filename):
 def read_message(filename) -> str:
     """Read the plaintext string from a file"""
     with open("./" + filename, 'r') as file:
-        text = file.readline()
+        text = file.read()
 
     return text
 

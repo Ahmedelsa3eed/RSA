@@ -3,10 +3,7 @@ from RSAKeyUtil import *
 import sys
 import time
 
-def encrypt_message(public_key_file, message):
-    with open(public_key_file, "rb") as f:
-        public_key_data = f.read()
-    public_key = rsa.PublicKey.load_pkcs1(public_key_data)
+def encrypt_message(public_key, message):
     ciphertext = rsa.encrypt(message, public_key)
     return ciphertext
 
@@ -21,7 +18,11 @@ if __name__ == '__main__':
         print("Usage: python3 encrypt.py <plaintext_file> <ciphertext_file>")
         exit(1)
     
-    ciphertext = encrypt_message(public_key_file, plaintext)
+    with open(public_key_file, "rb") as f:
+        public_key_data = f.read()
+    public_key = rsa.PublicKey.load_pkcs1(public_key_data)
+    
+    ciphertext = encrypt_message(public_key, plaintext)
 
     with open(sys.argv[2], "wb") as file:
         file.write(ciphertext)
